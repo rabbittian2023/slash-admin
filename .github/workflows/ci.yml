@@ -6,6 +6,7 @@ on:
   pull_request:
     branches: ['main']
   workflow_dispatch:
+  # Manually running a workflow https://docs.github.com/en/actions/using-workflows/manually-running-a-workflow
 
 jobs:
   build-and-deploy:
