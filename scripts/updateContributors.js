@@ -28,6 +28,12 @@ function updateContributors(username, type) {
     const command = `npx all-contributors-cli add ${username} ${type}`;
     execSync(command);
     console.log('Contributor added successfully.');
+    
+    // Generate the contributors list after adding a new contributor
+    console.log('Generating contributors list...');
+    const generateCommand = 'npx all-contributors-cli generate';
+    execSync(generateCommand);
+    console.log('Contributors list updated.');
   } else {
     console.log('Contributor already exists, skipping...');
   }
@@ -42,3 +48,4 @@ function main() {
 }
 
 main();
+// 测试all contributorsrc
