@@ -20,7 +20,8 @@ const typeMap = {
 function updateContributors(username, type) {
   const content = fs.readFileSync('.all-contributorsrc', 'utf-8');
   const contributors = JSON.parse(content);
-
+  console.log('contributors: ', contributors);
+  console.log('username', username);
   // 检查用户是否已存在
   const exists = contributors.contributors.some((contributor) => contributor.login === username);
   if (!exists) {
