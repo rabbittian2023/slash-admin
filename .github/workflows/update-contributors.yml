@@ -39,7 +39,7 @@ jobs:
           git config --global user.email "ntscshen@163.com"
           git config --global user.name "ntscshen"
           git add .
-          git commit -m "update contributors list"
+          git commit -m "docs: update contributors list"
           git push
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
