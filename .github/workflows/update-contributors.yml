@@ -46,9 +46,9 @@ jobs:
         run: |
           git config --global user.email "ntscshen@163.com"
           git config --global user.name "ntscshen"
-          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/ntscshen/slash-admin.git
           git add .
           git commit -m "docs: update contributors list"
-          git push origin temp-branch:main
+          git remote set-url origin https://x-access-token:${{ secrets.PERSONAL_ACCESS_TOKEN }}@github.com/ntscshen/slash-admin.git
+          git push --set-upstream origin temp-branch
         env:
           GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
