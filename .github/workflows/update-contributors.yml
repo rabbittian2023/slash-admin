@@ -48,11 +48,15 @@ jobs:
           git branch -a
           echo " ========= Token Length: ${#PERSONAL_ACCESS_TOKEN} ========= "
           echo " ========= Token Length: ${{ secrets.PERSONAL_ACCESS_TOKEN }} ========= "
+        env:
+          PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
       
       - name: Switch to main branch and pull latest
         run: |
           git checkout main
           git pull origin main
+        env:
+          PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
       
       - name: Commit changes
         run: |
