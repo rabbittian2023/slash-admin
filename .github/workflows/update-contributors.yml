@@ -1,18 +1,24 @@
 name: Update All Contributors
 on:
-  push:
+  pull_request:
     branches:
       - main
+    types: [closed] # 仅在合并后触发
 
 jobs:
   update-contributors:
     runs-on: ubuntu-latest
+    if:
+      github.event.pull_request.merged == true
+      # 确保了只有在 PR 实际被合并到 main 分支时，相应的步骤才会执行。
     strategy:
       matrix:
         node-version: [20.x]
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }} # 确保使用PR的最新提交的内容和commit
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
         with:
@@ -28,7 +34,7 @@ jobs:
         run: node scripts/updateContributors.js
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_ACTOR: ${{ github.actor }}
+          GITHUB_ACTOR: ${{ github.event.pull_request.user.login }} # 使用PR创建者的用户名
 
       - name: Commit and Push Changes
         run: |
