@@ -43,7 +43,7 @@ jobs:
         run: |
           git config --global user.email "ntscshen@163.com"
           git config --global user.name "ntscshen"
-          git remote set-url origin https://x-access-token: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@github.com/ntscshen/slash-admin.git
+          git remote set-url origin https://x-access-token:${{ env.PERSONAL_ACCESS_TOKEN }}@github.com/ntscshen/slash-admin.git
           git fetch --all
         env:
           PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
