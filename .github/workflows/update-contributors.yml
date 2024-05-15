@@ -41,6 +41,8 @@ jobs:
           GITHUB_ACTOR: ${{ github.event.pull_request.user.login }} # 使用PR创建者的用户名
       - name: Setup Git
         run: |
+          git config --global user.email "ntscshen@163.com"
+          git config --global user.name "ntscshen"
           git remote set-url origin https://x-access-token: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@github.com/ntscshen/slash-admin.git
           git fetch --all
         env:
