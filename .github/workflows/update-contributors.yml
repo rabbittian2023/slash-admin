@@ -32,9 +32,6 @@ jobs:
         run: pnpm install
       - name: Print PR Creator
         run: echo "--------- PR was created by ${{ github.event.pull_request.user.login }} ---------"
-      - name: Create temporary branch
-        run: |
-          git checkout -b temp-branch
       - name: Add Contributor
         run: |
           export GITHUB_ACTOR=${{ github.event.pull_request.user.login }}
@@ -49,6 +46,6 @@ jobs:
           git add .
           git commit -m "docs: update contributors list"
           git remote set-url origin https://x-access-token:${{ secrets.PERSONAL_ACCESS_TOKEN }}@github.com/ntscshen/slash-admin.git
-          git push --set-upstream origin temp-branch
+          git push origin main
         env:
           GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
