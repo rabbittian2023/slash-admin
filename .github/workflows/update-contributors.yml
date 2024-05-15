@@ -41,14 +41,20 @@ jobs:
         run: |
           git config --global user.email "ntscshen@163.com"
           git config --global user.name "ntscshen"
-          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/ntscshen/slash-admin.git
+          git remote set-url origin https://x-access-token:${{ secrets.PERSONAL_ACCESS_TOKEN }}@github.com/ntscshen/slash-admin.git
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
       - name: Switch to main branch and pull latest
         run: |
           git fetch --all
           git checkout main
           git pull origin main
+      - name: Echo Token Length
+        run: echo "Token Length is ${#PERSONAL_ACCESS_TOKEN}"
+        env:
+          PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+      - name: Check remote URL
+        run: git remote -v
       - name: Commit changes
         run: |
           git add .
