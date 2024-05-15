@@ -46,6 +46,8 @@ jobs:
           git remote set-url origin https://x-access-token:${{ secrets.PERSONAL_ACCESS_TOKEN }}@github.com/ntscshen/slash-admin.git
           git fetch --all
           git branch -a
+          echo " ========= Token Length: ${#PERSONAL_ACCESS_TOKEN} ========= "
+          echo " ========= Token Length: ${{ secrets.PERSONAL_ACCESS_TOKEN }} ========= "
       
       - name: Switch to main branch and pull latest
         run: |
