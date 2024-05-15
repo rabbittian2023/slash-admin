@@ -3,7 +3,7 @@ import { Params, RouteObject } from 'react-router-dom';
 
 export interface RouteMeta {
   /**
-   * antd menu selectedKeys
+   * antd menu selectedKeys - key值
    */
   key: string;
   /**

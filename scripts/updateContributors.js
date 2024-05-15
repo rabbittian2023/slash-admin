@@ -20,7 +20,8 @@ const typeMap = {
 function updateContributors(username, type) {
   const content = fs.readFileSync('.all-contributorsrc', 'utf-8');
   const contributors = JSON.parse(content);
-
+  console.log('contributors: ', contributors);
+  console.log('username', username);
   // 检查用户是否已存在
   const exists = contributors.contributors.some((contributor) => contributor.login === username);
   if (!exists) {
@@ -28,6 +29,12 @@ function updateContributors(username, type) {
     const command = `npx all-contributors-cli add ${username} ${type}`;
     execSync(command);
     console.log('Contributor added successfully.');
+    
+    // Generate the contributors list after adding a new contributor
+    console.log('Generating contributors list...');
+    const generateCommand = 'npx all-contributors-cli generate';
+    execSync(generateCommand);
+    console.log('Contributors list updated.');
   } else {
     console.log('Contributor already exists, skipping...');
   }
@@ -35,6 +42,8 @@ function updateContributors(username, type) {
 
 function main() {
   const username = process.env.GITHUB_ACTOR;
+  console.log('fix: 111updateContribcutors.js - GITHUB_ACTOR :>> ', process.env.GITHUB_ACTOR);
+  console.log('username :>> ', username);
   const lastCommitMessage = execSync('git log -1 --pretty=%B').toString().trim();
   const contributionType = typeMap[lastCommitMessage.split(' ')[0]] || 'code';
 
@@ -43,4 +52,22 @@ function main() {
 
 main();
 
+// 测试all contributorsrc
+// test1
+// test2
+// test3
+// test4
+// test5
+// test6
+// test7
+// test8
+// test9
+// test10
+// test10
+// test11
+// test12
+// test13
+// test14
+// test15
+// test16
 // 测试1

@@ -1,22 +1,24 @@
 name: Update All Contributors
 on:
-  push:
-    branches:
-      - main
   pull_request:
     branches:
       - main
-
+    types: [closed] # 仅在合并后触发
 
 jobs:
   update-contributors:
     runs-on: ubuntu-latest
+    if:
+      github.event.pull_request.merged == true
+      # 确保了只有在 PR 实际被合并到 main 分支时，相应的步骤才会执行。
     strategy:
       matrix:
         node-version: [20.x]
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }} # 确保使用PR的最新提交的内容和commit
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
         with:
@@ -28,18 +30,39 @@ jobs:
           cache: 'pnpm'
       - name: Install Dependencies
         run: pnpm install
+      - name: Print PR Creator
+        run: echo "--------- PR was created by ${{ github.event.pull_request.user.login }} ---------"
       - name: Add Contributor
-        run: node scripts/updateContributors.js
+        run: |
+          export GITHUB_ACTOR=${{ github.event.pull_request.user.login }}
+          node scripts/updateContributors.js
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_ACTOR: ${{ github.actor }}
-
-      - name: Commit and Push Changes
+          GITHUB_ACTOR: ${{ github.event.pull_request.user.login }} # 使用PR创建者的用户名
+      - name: Setup Git
         run: |
           git config --global user.email "ntscshen@163.com"
           git config --global user.name "ntscshen"
+          git remote set-url origin https://x-access-token:${{ secrets.PERSONAL_ACCESS_TOKEN }}@github.com/ntscshen/slash-admin.git
+          git fetch --all
+          git branch -a
+          echo " ========= Token Length: ${#PERSONAL_ACCESS_TOKEN} ========= "
+          echo " ========= Token Length: ${{ secrets.PERSONAL_ACCESS_TOKEN }} ========= "
+        env:
+          PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+      
+      - name: Switch to main branch and pull latest
+        run: |
+          git checkout main
+          git pull origin main
+        env:
+          PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+      
+      - name: Commit changes
+        run: |
           git add .
           git commit -m "docs: update contributors list"
-          git push
+          git push origin main
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+
