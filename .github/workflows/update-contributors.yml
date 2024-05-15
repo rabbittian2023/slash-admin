@@ -32,12 +32,10 @@ jobs:
         run: pnpm install
       - name: Print PR Creator
         run: echo "--------- PR was created by ${{ github.event.pull_request.user.login }} ---------"
-      - name: Add Contributor
-        run: node scripts/updateContributors.js
+      - name: Add Contributor--force
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_ACTOR: ${{ github.event.pull_request.user.login }} # 使用PR创建者的用户名
-        
       - name: Commit and Push Changes
         run: |
           git config --global user.email "ntscshen@163.com"
