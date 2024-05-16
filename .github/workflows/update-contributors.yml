@@ -36,14 +36,6 @@ jobs:
         run: echo "Token Length is ${#PERSONAL_ACCESS_TOKEN}"
         env:
           PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-      - name: Add Contributor
-        run: |
-          export GITHUB_ACTOR=${{ github.event.pull_request.user.login }}
-          node .github/workflows/scripts/updateContributors.js
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_ACTOR: ${{ github.event.pull_request.user.login }} # 使用PR创建者的用户名
-
       - name: Setup Git
         run: |
           git config --global user.email "ntscshen@163.com"
@@ -57,6 +49,14 @@ jobs:
           git fetch --all
           git checkout -f main
           git pull origin main
+
+      - name: Add Contributor
+        run: |
+          export GITHUB_ACTOR=${{ github.event.pull_request.user.login }}
+          node .github/workflows/scripts/updateContributors.js
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_ACTOR: ${{ github.event.pull_request.user.login }} # 使用PR创建者的用户名
 
       - name: Push changes to remote
         run: git push origin main
