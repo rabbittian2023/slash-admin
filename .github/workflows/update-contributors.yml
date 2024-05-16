@@ -39,7 +39,7 @@ jobs:
       - name: Add Contributor
         run: |
           export GITHUB_ACTOR=${{ github.event.pull_request.user.login }}
-          node ./github/workflows/scripts/updateContributors.js
+          node .github/workflows/scripts/updateContributors.js
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_ACTOR: ${{ github.event.pull_request.user.login }} # 使用PR创建者的用户名
